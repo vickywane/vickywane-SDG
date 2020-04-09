@@ -1,34 +1,32 @@
-const covid19ImpactEstimator = () => {
-  const data = {
-    region: {
-      name: 'Africa',
-      avgAge: 19.7,
-      avgDailyIncomeInUSD: 5,
-      avgDailyIncomePopulation: 0.71,
-    },
-    periodType: 'days',
-    timeToElapse: 58,
-    reportedCases: 674,
-    population: 66627705,
-    totalHospitalBeds: 1380614,
-  };
-
+const covid19ImpactEstimator = (data) => {
   const input = data;
+  // Destructuring to improve readability
+  const { reportedCases, totalHospitalBeds, timeToElapse } = input;
+  const { avgDailyIncomeInUSD, avgDailyIncomePopulation } = input.region;
 
   // challenge 1
-  const currentlyInfectedImpact = data.reportedCases * 10;
-  const currentlyInfectedSevere = data.reportedCases * 50;
+  const currentlyInfectedImpact = reportedCases * 10;
+  const currentlyInfectedSevere = reportedCases * 50;
 
-  // haven't confirmed the  factors yet.
+  // haven't confirmed the  factors yet. --- infectionsByRequestedTime
   const infectionsImpact = currentlyInfectedImpact * 512;
   const infectionsSevere = currentlyInfectedSevere * 512;
 
   // challenge 2
-  const severeCasesByRequestedTime = 15 / 100 * infectionsImpact;
-  const severeImpactCasesByRequestedTime = 15 / 100 * infectionsSevere;
+  const severeCasesByRequestedTime = 15 / infectionsImpact * 100;
+  const severeImpactCasesByRequestedTime = 15 / infectionsSevere * 100;
 
-  const impactAvailableBed = data.totalHospitalBeds;
-  const severeImpactAvailableBed = data.totalHospitalBeds;
+  const impactAvailableBed = totalHospitalBeds / severeCasesByRequestedTime; // UNSURE OF METHOD USED
+  const severeImpactAvailableBed =
+    totalHospitalBeds / severeImpactCasesByRequestedTime; // UNSURE OF METHOD USED
+
+  // challenge 3
+  const FivePercentimpactCase = 5 / severeImpactCasesByRequestedTime * 100;
+  const FivePercentsevereImpactCase =
+    5 / severeImpactCasesByRequestedTime * 100;
+
+  const TwoPercentimpactCase = 2 / severeCasesByRequestedTime * 100;
+  const TwoPercentsevereImpactCase = 2 / severeImpactCasesByRequestedTime * 100;
 
   return {
     data: input,
@@ -40,6 +38,16 @@ const covid19ImpactEstimator = () => {
       // challenge 2
       severeCasesByRequestedTime: severeCasesByRequestedTime,
       hospitalBedsByRequestedTime: impactAvailableBed,
+
+      //challenge 3
+      casesForICUByRequestedTime: FivePercentimpactCase,
+      casesForVentilatorsByRequestedTime: TwoPercentimpactCase,
+
+      dollarsInFlight:
+        infectionsImpact *
+        avgDailyIncomePopulation *
+        avgDailyIncomeInUSD *
+        timeToElapse,
     },
     severeImpact: {
       // challenge 1
@@ -49,6 +57,16 @@ const covid19ImpactEstimator = () => {
       // challenge 2
       severeCasesByRequestedTime: severeImpactCasesByRequestedTime,
       hospitalBedsByRequestedTime: severeImpactAvailableBed,
+
+      //challenge 3
+      casesForICUByRequestedTime: FivePercentsevereImpactCase,
+      casesForVentilatorsByRequestedTime: TwoPercentsevereImpactCase,
+
+      dollarsInFlight:
+        infectionsSevere *
+        avgDailyIncomePopulation *
+        avgDailyIncomeInUSD *
+        timeToElapse,
     },
   };
 };
