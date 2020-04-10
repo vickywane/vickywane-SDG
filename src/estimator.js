@@ -2,6 +2,7 @@
 /* eslint-disable no-mixed-operators */
 const covid19ImpactEstimator = (data) => {
   const input = data;
+  console.log(input, 'data input')
   // Destructuring to improve readability
   const { reportedCases, totalHospitalBeds, timeToElapse } = input;
   const { avgDailyIncomeInUSD, avgDailyIncomePopulation } = input.region;

@@ -19,7 +19,7 @@ app.use(
     const log = {
       method: reqMethod,
       url: reqPath,
-      time: reqTime
+      time: reqTime,
     };
     const parsedData = JSON.stringify(log);
     fs.writeFile('./src/logs.json', parsedData, (err) => {
@@ -33,11 +33,15 @@ app.use(
 );
 
 app.post('/api/v1/on-covid-19', (req, res) => {
-  const { data } = req.query;
-  console.log(data);
-  //   res.status(404).send('some err'); check d error from here later
+  const EstimatorData = req.query.data;
+  console.log(EstimatorData);
+  //   res.status(404).send('qsome err'); check d error from here later
 
-  covid19ImpactEstimator(data);
+  try {
+    covid19ImpactEstimator(EstimatorData);
+  } catch (error) {
+    console.log('err occured with passed data');
+  }
 });
 
 app.get('/api/v1/on-covid-19/logs', (req, res) => {
