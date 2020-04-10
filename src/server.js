@@ -11,18 +11,17 @@ const PORT = 3000;
 
 app.use(
   response((req, res, time) => {
-    const reqTime = time * 60; // trying to convert milisec to seconds
+    const reqTime = time * 60;
     const reqMethod = req.method;
-    // const Response = res;
-    const reqPath = req.route.path;
+    // const reqPath = req.route.path;
 
     const log = {
       method: reqMethod,
-      url: reqPath,
+      // url: reqPath,
       time: reqTime,
     };
     const parsedData = JSON.stringify(log);
-    fs.writeFile('./src/logs.json', parsedData, (err) => {
+    fs.createWriteStream('./src/logs.json', parsedData, (err) => {
       if (err) {
         console.log(err);
       } else {
