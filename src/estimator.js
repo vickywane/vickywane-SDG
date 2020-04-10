@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable no-mixed-operators */
 const covid19ImpactEstimator = (data) => {
   const input = data;
   // Destructuring to improve readability
@@ -13,41 +15,39 @@ const covid19ImpactEstimator = (data) => {
   const infectionsSevere = currentlyInfectedSevere * 512;
 
   // challenge 2
-  const severeCasesByRequestedTime = 15 / infectionsImpact * 100;
+  const severeICasesByRequestedTime = 15 / infectionsImpact * 100;
   const severeImpactCasesByRequestedTime = 15 / infectionsSevere * 100;
 
-  const impactAvailableBed = totalHospitalBeds / severeCasesByRequestedTime; // UNSURE OF METHOD USED
-  const severeImpactAvailableBed =
-    totalHospitalBeds / severeImpactCasesByRequestedTime; // UNSURE OF METHOD USED
+  const impactAvailableBed = totalHospitalBeds / severeICasesByRequestedTime; // UNSURE OF METHOD USED
+  const severeImpactAvailableBed = totalHospitalBeds / severeImpactCasesByRequestedTime; // UNSURE OF METHOD USED
 
   // challenge 3
   const FivePercentimpactCase = 5 / severeImpactCasesByRequestedTime * 100;
-  const FivePercentsevereImpactCase =
-    5 / severeImpactCasesByRequestedTime * 100;
+  const FivePercentsevereImpactCase = 5 / severeImpactCasesByRequestedTime * 100;
 
-  const TwoPercentimpactCase = 2 / severeCasesByRequestedTime * 100;
+  const TwoPercentimpactCase = 2 / severeICasesByRequestedTime * 100;
   const TwoPercentsevereImpactCase = 2 / severeImpactCasesByRequestedTime * 100;
 
   return {
     data: input,
     impact: {
-      //challenge 1
+      // challenge 1
       currentlyInfected: currentlyInfectedImpact,
       infectionsByRequestedTime: infectionsImpact,
 
       // challenge 2
-      severeCasesByRequestedTime: severeCasesByRequestedTime,
+      severeCasesByRequestedTime: severeICasesByRequestedTime,
       hospitalBedsByRequestedTime: impactAvailableBed,
 
-      //challenge 3
+      // challenge 3
       casesForICUByRequestedTime: FivePercentimpactCase,
       casesForVentilatorsByRequestedTime: TwoPercentimpactCase,
 
       dollarsInFlight:
-        infectionsImpact *
-        avgDailyIncomePopulation *
-        avgDailyIncomeInUSD *
-        timeToElapse,
+        infectionsImpact
+        * avgDailyIncomePopulation
+        * avgDailyIncomeInUSD
+        * timeToElapse
     },
     severeImpact: {
       // challenge 1
@@ -55,19 +55,19 @@ const covid19ImpactEstimator = (data) => {
       infectionsByRequestedTime: infectionsSevere,
 
       // challenge 2
-      severeCasesByRequestedTime: severeImpactCasesByRequestedTime,
+      severeICasesByRequestedTime: severeImpactCasesByRequestedTime,
       hospitalBedsByRequestedTime: severeImpactAvailableBed,
 
-      //challenge 3
+      // challenge 3
       casesForICUByRequestedTime: FivePercentsevereImpactCase,
       casesForVentilatorsByRequestedTime: TwoPercentsevereImpactCase,
 
       dollarsInFlight:
-        infectionsSevere *
-        avgDailyIncomePopulation *
-        avgDailyIncomeInUSD *
-        timeToElapse,
-    },
+        infectionsSevere
+        * avgDailyIncomePopulation
+        * avgDailyIncomeInUSD
+        * timeToElapse
+    }
   };
 };
 

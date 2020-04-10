@@ -1,16 +1,59 @@
+/* eslint-disable no-console */
 import express from 'express';
 import debug from 'debug';
-// import Covid19Estimator from './estimator';
+import response from 'response-time';
+import fs from 'fs';
+
+import covid19ImpactEstimator from './estimator';
 
 const app = express();
-
 const PORT = 3000;
 
-app.post('/api/v1/on-covid-19', (req, res) => {
-  console.log(req);
+app.use(
+  response((req, res, time) => {
+    const reqTime = time * 60; // trying to convert milisec to seconds
+    const reqMethod = req.method;
+    // const Response = res;
+    const reqPath = req.route.path;
 
-  console.log(res);
-  //   Covid19Estimator(data);
+    const log = {
+      method: reqMethod,
+      url: reqPath,
+      time: reqTime
+    };
+    const parsedData = JSON.stringify(log);
+    fs.writeFile('./src/logs.json', parsedData, (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log('written log data');
+      }
+    });
+  })
+);
+
+app.post('/api/v1/on-covid-19', (req, res) => {
+  const { data } = req.query;
+  console.log(data);
+  //   res.status(404).send('some err'); check d error from here later
+
+  covid19ImpactEstimator(data);
+});
+
+app.get('/api/v1/on-covid-19/logs', (req, res) => {
+  // reading from file
+  fs.readFile('./src/logs.json', (err, jsonString) => {
+    if (err) {
+      console.log('failed to read', err);
+    } else {
+      try {
+        const log = JSON.parse(jsonString);
+        console.log(log);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  });
 });
 
 app.listen(PORT, () => debug.log(`LISTENING ON PORT ${PORT}`));
