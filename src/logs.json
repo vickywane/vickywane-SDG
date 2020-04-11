@@ -1,1 +1,5 @@
-{"req":"POST","reqpath":"/api/v1/on-covid-19/xml","time":1171.548}
+{
+    "req": "POST",
+    "reqpath": "/api/v1/on-covid-19/xml",
+    "time": 869.8679999999999
+}

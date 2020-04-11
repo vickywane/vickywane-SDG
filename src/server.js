@@ -9,6 +9,8 @@ import covid19ImpactEstimator from './estimator';
 const app = express();
 const PORT = 3000;
 
+// TODO: make sure log file doesnt get overwritten and pull data from req body & add status code
+
 app.use(
   response((req, res, time) => {
     const reqTime = time * 60;
@@ -23,7 +25,7 @@ app.use(
     };
 
     const parsedData = JSON.stringify(log);
-    fs.writeFile('./src/logs.json', parsedData, (err) => {
+    fs.writeFile('./src/logs.json', parsedData, { flag: 'r+' }, (err) => {
       if (err) {
         console.log(err);
       } else {
