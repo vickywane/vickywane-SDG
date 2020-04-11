@@ -3,21 +3,25 @@ import express from 'express';
 import debug from 'debug';
 import response from 'response-time';
 import fs from 'fs';
-
+import convert from 'xml-js';
 import covid19ImpactEstimator from './estimator';
 
 const app = express();
 const PORT = 3000;
 
 app.use(
-  response((req, time) => {
+  response((req, res, time) => {
     const reqTime = time * 60;
     const reqMethod = req.method;
     const path = req.originalUrl;
-
     console.log(path);
 
-    const log = `${reqMethod} \t   ${path}  \t  ${reqTime} \n `;
+    const log = {
+      req: reqMethod,
+      reqpath: path,
+      time: reqTime,
+    };
+
     const parsedData = JSON.stringify(log);
     fs.writeFile('./src/logs.json', parsedData, (err) => {
       if (err) {
@@ -30,32 +34,37 @@ app.use(
 );
 
 app.post('/api/v1/on-covid-19(*)', (req, res) => {
-  const EstimatorData = req.query.data;
-  console.log(EstimatorData);
-
-  // const sampleData = {
-  //   name: 'Victory',
-  // };
-
   const path = req.originalUrl;
-  if (/x/.test(path)) {
-    console.log('it is', '\t\t', '  xml');
-    res.set('Accept', 'application/xml');
-    // res.send
-  } else {
-    console.log('\t\t', 'not xml');
-  }
+  // const EstimatorData = req.query.data;
 
-  res.status(404).send('qsome err');
+  const test = {
+    region: {
+      name: 'Africa',
+      avgAge: 19.7,
+      avgDailyIncomeInUSD: 5,
+      avgDailyIncomePopulation: 0.71,
+    },
+    periodType: 'days',
+    timeToElapse: 58,
+    reportedCases: 674,
+    population: 66622705,
+    totalHospitalBeds: 1380614,
+  };
+  const data = covid19ImpactEstimator(test);
+
   try {
-    covid19ImpactEstimator(EstimatorData);
+    if (/x/.test(path)) {
+      const converted = convert.js2xml(data, { compact: true });
+      console.log(converted, 'converted');
+      res.set('Accept', 'application/xml');
+      res.send(converted);
+    }
   } catch (error) {
-    console.log('err occured with passed data');
+    console.log('err occured with passed data', error);
   }
 });
 
-app.get('/api/v1/on-covid-19/logs(*)', () => {
-  // reading from file
+app.get('/api/v1/on-covid-19/logs', () => {
   fs.readFile('./src/logs.json', (err, jsonString) => {
     if (err) {
       console.log('failed to read', err);
