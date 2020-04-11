@@ -1,8 +1,10 @@
+/* eslint-disable consistent-return */
 /* eslint-disable max-len */
 /* eslint-disable no-mixed-operators */
 const covid19ImpactEstimator = (data) => {
   const input = data;
 
+  // eslint-disable-next-line object-curly-newline
   const { reportedCases, totalHospitalBeds, timeToElapse, periodType } = input;
   const { avgDailyIncomeInUSD, avgDailyIncomePopulation } = input.region;
 

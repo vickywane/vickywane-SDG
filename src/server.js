@@ -10,18 +10,14 @@ const app = express();
 const PORT = 3000;
 
 app.use(
-  response((req, res, time) => {
+  response((req, time) => {
     const reqTime = time * 60;
     const reqMethod = req.method;
     const path = req.originalUrl;
 
     console.log(path);
-    const log = {
-      method: reqMethod,
-      url: path,
-      time: reqTime,
-    };
 
+    const log = `${reqMethod} \t   ${path}  \t  ${reqTime} \n `;
     const parsedData = JSON.stringify(log);
     fs.writeFile('./src/logs.json', parsedData, (err) => {
       if (err) {
@@ -37,15 +33,17 @@ app.post('/api/v1/on-covid-19(*)', (req, res) => {
   const EstimatorData = req.query.data;
   console.log(EstimatorData);
 
-  const sampleData = {
-    name: 'Victory',
-  };
+  // const sampleData = {
+  //   name: 'Victory',
+  // };
 
   const path = req.originalUrl;
   if (/x/.test(path)) {
+    console.log('it is', '\t\t', '  xml');
     res.set('Accept', 'application/xml');
+    // res.send
   } else {
-    console.log('not xml');
+    console.log('\t\t', 'not xml');
   }
 
   res.status(404).send('qsome err');
@@ -56,7 +54,7 @@ app.post('/api/v1/on-covid-19(*)', (req, res) => {
   }
 });
 
-app.get('/api/v1/on-covid-19/logs(*)', (req, res) => {
+app.get('/api/v1/on-covid-19/logs(*)', () => {
   // reading from file
   fs.readFile('./src/logs.json', (err, jsonString) => {
     if (err) {
