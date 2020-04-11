@@ -76,10 +76,10 @@ const covid19ImpactEstimator = (data) => {
       casesForVentilatorsByRequestedTime: TwoPercentimpactCase,
 
       dollarsInFlight:
-        infectionsImpact *
-        avgDailyIncomePopulation *
-        avgDailyIncomeInUSD *
-        convertToDays(),
+        infectionsImpact
+        * avgDailyIncomePopulation
+        * avgDailyIncomeInUSD
+        * convertToDays()
     },
     severeImpact: {
       // challenge 1
@@ -95,11 +95,11 @@ const covid19ImpactEstimator = (data) => {
       casesForVentilatorsByRequestedTime: TwoPercentsevereImpactCase,
 
       dollarsInFlight:
-        infectionsSevere *
-        avgDailyIncomePopulation *
-        avgDailyIncomeInUSD *
-        convertToDays(),
-    },
+        infectionsSevere
+        * avgDailyIncomePopulation
+        * avgDailyIncomeInUSD
+        * convertToDays()
+    }
   };
 };
 

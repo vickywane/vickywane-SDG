@@ -13,15 +13,17 @@ app.use(
   response((req, res, time) => {
     const reqTime = time * 60;
     const reqMethod = req.method;
-    // const reqPath = req.route.path;
+    const path = req.originalUrl;
 
+    console.log(path);
     const log = {
       method: reqMethod,
-      // url: reqPath,
+      url: path,
       time: reqTime,
     };
+
     const parsedData = JSON.stringify(log);
-    fs.createWriteStream('./src/logs.json', parsedData, (err) => {
+    fs.writeFile('./src/logs.json', parsedData, (err) => {
       if (err) {
         console.log(err);
       } else {
@@ -31,11 +33,22 @@ app.use(
   })
 );
 
-app.post('/api/v1/on-covid-19', (req, res) => {
+app.post('/api/v1/on-covid-19(*)', (req, res) => {
   const EstimatorData = req.query.data;
   console.log(EstimatorData);
-  //   res.status(404).send('qsome err'); check d error from here later
 
+  const sampleData = {
+    name: 'Victory',
+  };
+
+  const path = req.originalUrl;
+  if (/x/.test(path)) {
+    res.set('Accept', 'application/xml');
+  } else {
+    console.log('not xml');
+  }
+
+  res.status(404).send('qsome err');
   try {
     covid19ImpactEstimator(EstimatorData);
   } catch (error) {
@@ -43,7 +56,7 @@ app.post('/api/v1/on-covid-19', (req, res) => {
   }
 });
 
-app.get('/api/v1/on-covid-19/logs', (req, res) => {
+app.get('/api/v1/on-covid-19/logs(*)', (req, res) => {
   // reading from file
   fs.readFile('./src/logs.json', (err, jsonString) => {
     if (err) {
@@ -51,7 +64,7 @@ app.get('/api/v1/on-covid-19/logs', (req, res) => {
     } else {
       try {
         const log = JSON.parse(jsonString);
-        console.log(log);
+        console.log(log, 'parsed data');
       } catch (error) {
         console.log(error);
       }
