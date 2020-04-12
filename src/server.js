@@ -29,7 +29,7 @@ app.use(
       if (err) {
         console.log(err);
       } else {
-        console.log('written log data');
+        console.log('written  some log data');
       }
     });
   })
