@@ -55,10 +55,10 @@ app.post('/api/v1/on-covid-19(*)', (req, res) => {
   const data = covid19ImpactEstimator(test);
 
   try {
+    const converted = convert.js2xml(data, { compact: true });
     if (/x/.test(path)) {
-      const converted = convert.js2xml(data, { compact: true });
-      console.log(converted, 'converted');
-      res.set('Accept', 'application/xml');
+      res.send(converted);
+    } else {
       res.send(converted);
     }
   } catch (error) {
@@ -66,14 +66,14 @@ app.post('/api/v1/on-covid-19(*)', (req, res) => {
   }
 });
 
-app.get('/api/v1/on-covid-19/logs', () => {
+app.get('/api/v1/on-covid-19/logs', (req, res) => {
   fs.readFile('./src/logs.json', (err, jsonString) => {
     if (err) {
       console.log('failed to read', err);
     } else {
       try {
         const log = JSON.parse(jsonString);
-        console.log(log, 'parsed data');
+        res.send(log);
       } catch (error) {
         console.log(error);
       }
