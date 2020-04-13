@@ -1,14 +1,1 @@
-{
-    "req": "GET",
-    "reqpath": "/api/v1/on-covid-19/logs",
-    "time": 1927.04394,
-    "req": "GET",
-    "reqpath": "/api/v1/on-covid-19/logs",
-    "time": 2874.95394,
-    "req": "PUT",
-    "reqpath": "/api/v1/on-covid-19/logs",
-    "time": 348.774,
-    "req": "PUT",
-    "reqpath": "/api/v1/on-covid-19/logs",
-    "time": 369.81593999999996
-}
+ 

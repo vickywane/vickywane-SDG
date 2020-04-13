@@ -21,7 +21,7 @@ app.use(
     const log = {
       req: reqMethod,
       reqpath: path,
-      time: reqTime,
+      time: reqTime
     };
 
     const parsedData = JSON.stringify(log);
@@ -44,13 +44,13 @@ app.post('/api/v1/on-covid-19(*)', (req, res) => {
       name: 'Africa',
       avgAge: 19.7,
       avgDailyIncomeInUSD: 5,
-      avgDailyIncomePopulation: 0.71,
+      avgDailyIncomePopulation: 0.71
     },
     periodType: 'days',
     timeToElapse: 58,
     reportedCases: 674,
     population: 66622705,
-    totalHospitalBeds: 1380614,
+    totalHospitalBeds: 1380614
   };
   const data = covid19ImpactEstimator(test);
 
@@ -74,9 +74,9 @@ app.get('/api/v1/on-covid-19/logs', (req, res) => {
       try {
         const log = JSON.parse(jsonString);
         console.log(log);
-        // res.format({
-        //   'text/plain': () => res.send(log),
-        // });
+        res.format({
+          'text/plain': () => res.send(log)
+        });
       } catch (error) {
         console.log(error);
       }
