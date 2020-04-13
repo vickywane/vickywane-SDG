@@ -1,3 +1,6 @@
+/* eslint-disable no-console */
+/* eslint-disable prefer-template */
+/* eslint-disable radix */
 import express from 'express';
 import bodyParser from 'body-parser';
 import xml from 'xml';
@@ -12,7 +15,7 @@ app.use(bodyParser.json());
 
 fs.mkdirSync(path.join(__dirname, './logs/'));
 const logFile = fs.createWriteStream(path.join(__dirname, './log.txt'), {
-  flags: 'a' 
+  flags: 'a'
 });
 
 app.use(
@@ -24,11 +27,11 @@ app.use(
         tokens.status(req, res),
         parseInt(tokens['response-time'](req, res).toString()) < 10
           ? '0' + parseInt(tokens['response-time'](req, res).toString()) + 'ms'
-          : parseInt(tokens['response-time'](req, res).toString()) + 'ms' 
+          : parseInt(tokens['response-time'](req, res).toString()) + 'ms'
       ].join('\t\t');
     },
     {
-      stream: logFile,
+      stream: logFile
     }
   )
 );
@@ -56,16 +59,16 @@ app.post('/api/v1/on-covid-19/:type', estimator, (req, res) => {
                   { avgDailyIncomeInUSD: data.region.avgDailyIncomeInUSD },
                   {
                     avgDailyIncomePopulation:
-                      data.region.avgDailyIncomePopulation 
-                  },
-                ],
+                      data.region.avgDailyIncomePopulation
+                  }
+                ]
               },
               { periodType: data.periodType },
               { timeToElapse: data.timeToElapse },
               { reportedCases: data.reportedCases },
               { population: data.population },
-              { totalHospitalBeds: data.totalHospitalBeds } 
-            ],
+              { totalHospitalBeds: data.totalHospitalBeds }
+            ]
           },
           {
             impact: [
@@ -73,56 +76,56 @@ app.post('/api/v1/on-covid-19/:type', estimator, (req, res) => {
               { infectionsByRequestedTime: impact.infectionsByRequestedTime },
               { severeCasesByRequestedTime: impact.severeCasesByRequestedTime },
               {
-                hospitalBedsByRequestedTime: impact.hospitalBedsByRequestedTime,
+                hospitalBedsByRequestedTime: impact.hospitalBedsByRequestedTime
               },
               { casesForICUByRequestedTime: impact.casesForICUByRequestedTime },
               {
                 casesForVentilatorsByRequestedTime:
-                  impact.casesForVentilatorsByRequestedTime,
+                  impact.casesForVentilatorsByRequestedTime
               },
-              { dollarsInFlight: impact.dollarsInFlight } 
-            ],
+              { dollarsInFlight: impact.dollarsInFlight }
+            ]
           },
           {
             severeImpact: [
               { currentlyInfected: severeImpact.currentlyInfected },
               {
                 infectionsByRequestedTime:
-                  severeImpact.infectionsByRequestedTime,
+                  severeImpact.infectionsByRequestedTime
               },
               {
                 severeCasesByRequestedTime:
-                  severeImpact.severeCasesByRequestedTime,
+                  severeImpact.severeCasesByRequestedTime
               },
               {
                 hospitalBedsByRequestedTime:
-                  severeImpact.hospitalBedsByRequestedTime,
+                  severeImpact.hospitalBedsByRequestedTime
               },
               {
                 casesForICUByRequestedTime:
-                  severeImpact.casesForICUByRequestedTime,
+                  severeImpact.casesForICUByRequestedTime
               },
               {
                 casesForVentilatorsByRequestedTime:
-                  severeImpact.casesForVentilatorsByRequestedTime,
+                  severeImpact.casesForVentilatorsByRequestedTime
               },
-              { dollarsInFlight: severeImpact.dollarsInFlight } 
-            ],
-          },
-        ],
-      } 
+              { dollarsInFlight: severeImpact.dollarsInFlight }
+            ]
+          }
+        ]
+      }
     ];
 
-    //set the content type to xml
+    // set the content type to xml
     res.type('application/xml');
-    //send an xml data
+    // send an xml data
     res.status(201).send(xml(dataToSubmit, { declaration: true }));
   }
 });
 
 app.get('/api/v1/on-covid-19/logs', (req, res) => {
   const logs = fs.readFileSync(path.join(__dirname, './logs/log.txt'), {
-    encoding: 'utf-8',
+    encoding: 'utf-8'
   });
   console.log(logs);
   res.type('text/plain');
