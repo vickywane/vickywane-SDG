@@ -5,8 +5,8 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "lint": "eslint ./src/",
-    "start": "nodemon ./"
+    "start": "node ./",
+    "lint": "eslint ./src/"
   },
   "dependencies": {
     "debug": "^4.1.1",
