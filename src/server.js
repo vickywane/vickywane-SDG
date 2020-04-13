@@ -40,7 +40,7 @@ app.use(
 app.post('/api/v1/on-covid-19', estimator, (req, res) => {
   res.status(201).json(res.body);
 });
-
+  
 app.post('/api/v1/on-covid-19/:type', estimator, (req, res) => {
   if (req.params.type === 'json') {
     res.status(201).json(res.body);
