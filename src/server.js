@@ -21,15 +21,15 @@ app.use(
     const log = {
       req: reqMethod,
       reqpath: path,
-      time: reqTime
+      time: reqTime,
     };
 
     const parsedData = JSON.stringify(log);
-    fs.writeFile('./src/logs.json', parsedData, { flag: 'r+' }, (err) => {
+    fs.appendFile('./src/logs.json', parsedData, (err) => {
       if (err) {
         console.log(err);
       } else {
-        console.log('written  some log data');
+        console.log('written log data');
       }
     });
   })
@@ -44,13 +44,13 @@ app.post('/api/v1/on-covid-19(*)', (req, res) => {
       name: 'Africa',
       avgAge: 19.7,
       avgDailyIncomeInUSD: 5,
-      avgDailyIncomePopulation: 0.71
+      avgDailyIncomePopulation: 0.71,
     },
     periodType: 'days',
     timeToElapse: 58,
     reportedCases: 674,
     population: 66622705,
-    totalHospitalBeds: 1380614
+    totalHospitalBeds: 1380614,
   };
   const data = covid19ImpactEstimator(test);
 
@@ -73,7 +73,10 @@ app.get('/api/v1/on-covid-19/logs', (req, res) => {
     } else {
       try {
         const log = JSON.parse(jsonString);
-        res.send(log);
+        console.log(log);
+        // res.format({
+        //   'text/plain': () => res.send(log),
+        // });
       } catch (error) {
         console.log(error);
       }
