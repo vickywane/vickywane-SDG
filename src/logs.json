@@ -1,1 +1,13 @@
- 
+[
+	{
+		"req": "PATCH",
+		"reqpath": "/api/v1/on-covid-19",
+		"time": 283.87199999999996
+	}
+][
+	{
+		"req": "GET",
+		"reqpath": "/api/v1/on-covid-19/logs",
+		"time": 3566.3279399999997
+	}
+]
