@@ -14,8 +14,8 @@ import estimator from './estimator';
 const app = express();
 app.use(bodyParser.json());
 
-fs.mkdirSync(path.join(__dirname, './logs/'));
-const logFile = fs.createWriteStream(path.join(__dirname, './log.txt'), {
+fs.mkdirSync(path.join(__dirname, './log'));
+const logFile = fs.createWriteStream(path.join(__dirname, './log/log.txt'), {
   flags: 'a'
 });
 
@@ -125,7 +125,7 @@ app.post('/api/v1/on-covid-19/:type', estimator, (req, res) => {
 });
 
 app.get('/api/v1/on-covid-19/logs', (req, res) => {
-  const logs = fs.readFileSync(path.join(__dirname, './logs/log.txt'), {
+  const logs = fs.readFileSync(path.join(__dirname, './log/log.txt'), {
     encoding: 'utf-8'
   });
   console.log(logs);
