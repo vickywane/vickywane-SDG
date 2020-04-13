@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 
 fs.mkdirSync(path.join(__dirname, './logs/'));
 const logFile = fs.createWriteStream(path.join(__dirname, './log.txt'), {
-  flags: 'a',
+  flags: 'a' 
 });
 
 app.use(
@@ -24,7 +24,7 @@ app.use(
         tokens.status(req, res),
         parseInt(tokens['response-time'](req, res).toString()) < 10
           ? '0' + parseInt(tokens['response-time'](req, res).toString()) + 'ms'
-          : parseInt(tokens['response-time'](req, res).toString()) + 'ms',
+          : parseInt(tokens['response-time'](req, res).toString()) + 'ms' 
       ].join('\t\t');
     },
     {
@@ -56,7 +56,7 @@ app.post('/api/v1/on-covid-19/:type', estimator, (req, res) => {
                   { avgDailyIncomeInUSD: data.region.avgDailyIncomeInUSD },
                   {
                     avgDailyIncomePopulation:
-                      data.region.avgDailyIncomePopulation,
+                      data.region.avgDailyIncomePopulation 
                   },
                 ],
               },
@@ -64,7 +64,7 @@ app.post('/api/v1/on-covid-19/:type', estimator, (req, res) => {
               { timeToElapse: data.timeToElapse },
               { reportedCases: data.reportedCases },
               { population: data.population },
-              { totalHospitalBeds: data.totalHospitalBeds },
+              { totalHospitalBeds: data.totalHospitalBeds } 
             ],
           },
           {
@@ -80,7 +80,7 @@ app.post('/api/v1/on-covid-19/:type', estimator, (req, res) => {
                 casesForVentilatorsByRequestedTime:
                   impact.casesForVentilatorsByRequestedTime,
               },
-              { dollarsInFlight: impact.dollarsInFlight },
+              { dollarsInFlight: impact.dollarsInFlight } 
             ],
           },
           {
@@ -106,11 +106,11 @@ app.post('/api/v1/on-covid-19/:type', estimator, (req, res) => {
                 casesForVentilatorsByRequestedTime:
                   severeImpact.casesForVentilatorsByRequestedTime,
               },
-              { dollarsInFlight: severeImpact.dollarsInFlight },
+              { dollarsInFlight: severeImpact.dollarsInFlight } 
             ],
           },
         ],
-      },
+      } 
     ];
 
     //set the content type to xml
